@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/mysql-jdbc"/>
+	<classpathentry kind="lib" path="D:/tools/eclipselink/jlib/eclipselink.jar"/>
+	<classpathentry kind="lib" path="D:/tools/eclipselink/jlib/jpa/javax.persistence_2.2.0.v201708071007.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
