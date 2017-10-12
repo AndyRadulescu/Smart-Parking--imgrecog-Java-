@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ParkingApp</string>
+    <string name="title_activity_secound">Secound</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="powerd_by_fratii_brothers">powerd by FRATII BROTHERS</string>
+    <string name="smart_parking">SMART PARKING</string>
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.example.anama.parkingapp.MainActivity">
+
+
+    <RelativeLayout
+        android:layout_width="344dp"
+        android:layout_height="495dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <EditText
+            android:id="@+id/my_text2"
+            android:layout_width="150dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="93dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/powerd_by_fratii_brothers"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="15sp"
+            android:textStyle="normal|bold|italic"
+            android:typeface="serif"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="192dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/progressBar"
+            android:layout_alignStart="@+id/progressBar"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp" />
+
+        <EditText
+            android:id="@+id/my_text1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/my_text2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="23dp"
+            android:cursorVisible="false"
+
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/smart_parking"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="25sp"
+            android:textStyle="normal|bold|italic"
+            android:typeface="serif"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="129dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="119dp"
+            tools:layout_editor_absoluteX="68dp"
+            tools:layout_editor_absoluteY="291dp" />
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
