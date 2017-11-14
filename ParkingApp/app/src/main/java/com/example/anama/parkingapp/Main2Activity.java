@@ -14,15 +14,12 @@ public class Main2Activity extends AppCompatActivity {
     private Dialog mDialog;
     private Button mDialogyes, mDialogno;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     protected void createDialog() {
@@ -50,17 +47,13 @@ public class Main2Activity extends AppCompatActivity {
                         mDialog.dismiss();
                     }
                 });
-
             }
-
-
         });
     }
 
     public void Action(View v) {
-        Intent a = new Intent(Main2Activity.this, Main3Activity.class);
-        startActivity(a);
+        Intent nextFrame = new Intent(Main2Activity.this, Main3Activity.class);
+        startActivity(nextFrame);
     }
-
 }
 

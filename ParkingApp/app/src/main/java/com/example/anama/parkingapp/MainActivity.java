@@ -21,25 +21,26 @@ import model.ParsedParking;
 import server.ClientThread;
 import server.ConnectionDetector;
 import server.Message;
+import server.SavedItems;
 
-import static server.SavedItems.TAKEALL;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SavedItems {
 
     private static List<ParsedParking> parkingArray = new ArrayList<>();
     private boolean isConnectedToServer = false;
-    String debug = "debug";
     private Handler mHandler;
 
-    public static List<ParsedParking> take() {
+    public static List<ParsedParking> getParkingArray() {
         return parkingArray;
     }
 
+    //TODO: add asincTask run in background to help with the server.
+    //TODO: Stylise the UI si it fits for every android device.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mHandler = new Handler();
+
         ConnectionDetector cd = new ConnectionDetector(this);
         if (!cd.isConnected()) {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -54,44 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     });
             alertDialog.show();
         } else {
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    while (!isConnectedToServer) {
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Intent i = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }).start();
-
-//            int SPLASH_TIME_OUT = 2000;
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    while (!isConnectedToServer) {
-//                        try {
-//                            Thread.sleep(300);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    Intent i = new Intent(MainActivity.this, Main2Activity.class);
-//                    startActivity(i);
-//                    finish();
-//                }
-//            }, SPLASH_TIME_OUT);
+            goToNextIntentIfConnected();
 
             Thread serverThread = new Thread(new Runnable() {
                 @Override
@@ -116,11 +80,10 @@ public class MainActivity extends AppCompatActivity {
                         future.cancel(true); //this method will stop the running underlying task
                         mHandler.post(new Runnable() {
                             public void run() {
-                                //Be sure to pass your Activity class, not the Thread
-                                // AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                                 alertDialog.setTitle("Server connection Error");
-                                alertDialog.setMessage("Your internet connection might be down..");
+                                alertDialog.setMessage("The server might be down..\n " +
+                                        "Retry in a few minutes.");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
@@ -138,5 +101,32 @@ public class MainActivity extends AppCompatActivity {
             });
             serverThread.start();
         }
+    }
+
+    /**
+     * Every 0.3 seconds a separate thread try's to connect to the server.
+     * If the server is online, it will go to the next intent, closing this one.
+     */
+    private void goToNextIntentIfConnected() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!isConnectedToServer) {
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Intent nextFrame = new Intent(MainActivity.this, Main2Activity.class);
+                startActivity(nextFrame);
+                finish();
+            }
+        }).start();
     }
 }

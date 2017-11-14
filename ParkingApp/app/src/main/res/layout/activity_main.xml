@@ -25,12 +25,19 @@
 
         <EditText
             android:id="@+id/my_text2"
-            android:layout_width="150dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="93dp"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="73dp"
+            android:layout_marginTop="98dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/powerd_by_fratii_brothers"
+            android:shadowColor="#7B1FA2"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="5"
+            android:text="@string/powerd_by_Andy_Radulescu"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="15sp"
@@ -38,12 +45,7 @@
             android:typeface="serif"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="59dp"
-            tools:layout_editor_absoluteY="192dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/progressBar"
-            android:layout_alignStart="@+id/progressBar"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp" />
+            tools:layout_editor_absoluteY="192dp" />
 
         <EditText
             android:id="@+id/my_text1"
@@ -56,6 +58,10 @@
 
             android:ems="10"
             android:inputType="textPersonName"
+            android:shadowColor="#7B1FA2"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="5"
             android:text="@string/smart_parking"
             android:textAlignment="center"
             android:textAllCaps="false"

@@ -1,8 +1,13 @@
 <resources>
-    <string name="app_name">ParkingApp</string>
+    <string name="app_name">Smart Parking</string>
     <string name="title_activity_secound">Secound</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_main3">Main3Activity</string>
-    <string name="powerd_by_fratii_brothers">powerd by FRATII BROTHERS</string>
+    <string name="powerd_by_Andy_Radulescu">powerd by Andy <b/> Radulescu</string>
     <string name="smart_parking">SMART PARKING</string>
+    <string name="select_the_parking_lot">Select the parking lot !</string>
+    <string name="section_1">SECTION 1</string>
+    <string name="section_3">SECTION 3</string>
+    <string name="section_4">SECTION 4</string>
+    <string name="section_2">SECTION 2</string>
 </resources>
