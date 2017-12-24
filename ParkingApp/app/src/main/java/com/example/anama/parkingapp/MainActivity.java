@@ -1,10 +1,10 @@
 package com.example.anama.parkingapp;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -17,6 +17,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import model.DbHelper;
 import model.ParsedParking;
 import server.ClientThread;
 import server.ConnectionDetector;
@@ -27,18 +28,24 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
 
     private static List<ParsedParking> parkingArray = new ArrayList<>();
     private boolean isConnectedToServer = false;
+    DbHelper mDbHelper;
     private Handler mHandler;
 
     public static List<ParsedParking> getParkingArray() {
         return parkingArray;
     }
 
+    //TODO: finish the database update and select
     //TODO: add asincTask run in background to help with the server.
     //TODO: Stylise the UI si it fits for every android device.
+    //TODO: easy translatable
+    //TODO: blind accessibility
+    //TODO: sql database that saves the parking so it can work offline
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDbHelper = new DbHelper(this);
         mHandler = new Handler();
 
         ConnectionDetector cd = new ConnectionDetector(this);
@@ -72,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                         response = future.get(3000, TimeUnit.MILLISECONDS);
                         isConnectedToServer = true;
                         parkingArray = (List<ParsedParking>) response.getData();
+                        updateDatabase();
                         Log.i(debug, parkingArray.toString());
 
                     } catch (InterruptedException | ExecutionException | TimeoutException | NullPointerException e) {
@@ -101,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
             });
             serverThread.start();
         }
+    }
+
+    private void updateDatabase() {
+        for (ParsedParking item : parkingArray)
+            mDbHelper.updateData(String.valueOf(item.getId()), item.getAvailability(), item.getName());
     }
 
     /**

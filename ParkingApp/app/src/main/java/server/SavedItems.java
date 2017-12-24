@@ -7,7 +7,7 @@ package server;
 
 public interface SavedItems {
     int PORT = 6789;
-    String IP = "192.168.1.4";
+    String IP = "192.168.1.5";
     int TAKEALL = 1;
     String debug = "debug";
 
