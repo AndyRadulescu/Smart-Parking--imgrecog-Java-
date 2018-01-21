@@ -38,7 +38,8 @@ public class UpdateParking implements Runnable, SavedItems {
 				emf.getCache().evictAll();
 				this.sm.release();
 
-				System.out.println("Slept for " + sleepTime + " changed the ids : " + id1 + " , " + id2 + " , " + id3);
+				System.out.println(
+						"Slept for " + sleepTime + "seconds, changed the ids : " + id1 + " , " + id2 + " , " + id3);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

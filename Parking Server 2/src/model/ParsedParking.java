@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import javax.persistence.*;
 
 public class ParsedParking implements Serializable {
 
@@ -16,6 +17,10 @@ public class ParsedParking implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.availability = availability;
+	}
+
+	public ParsedParking() {
+
 	}
 
 	public int getId() {
