@@ -14,6 +14,8 @@ public class Main2Activity extends AppCompatActivity {
     private Dialog mDialog;
     private Button mDialogyes, mDialogno;
 
+    //TODO: add the label to show how many available places are in the data packing slot.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,6 +1,7 @@
 package com.example.anama.parkingapp;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +18,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import model.DbHelper;
 import model.ParsedParking;
 import server.ClientThread;
 import server.Message;
@@ -37,12 +39,29 @@ public class CustomView extends View {
 
     private volatile List<ParsedParking> parkingPlaces = new ArrayList<>();
     private Paint paint;
-
+    private DbHelper mDbHelper;
 
     public CustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.paint = new Paint();
-        parkingPlaces = MainActivity.getParkingArray();
+        mDbHelper = new DbHelper(context);
+        getInfoFromDb();
+    }
+
+    /**
+     * Selects the parking info from the database.
+     */
+    private void getInfoFromDb() {
+        Cursor cursor = mDbHelper.getAllData();
+        if (cursor.moveToFirst()) {
+            do {
+                String id = cursor.getString(cursor.getColumnIndex("ID"));
+                String availability = cursor.getString(cursor.getColumnIndex("availability"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                parkingPlaces.add(new ParsedParking(Integer.parseInt(id), name, Integer.parseInt(availability)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
     }
 
     @Override
@@ -56,7 +75,7 @@ public class CustomView extends View {
         int horizontalParkingSlot = getWidth() / 2;
         int heightOfLine = (getHeight() - 200) / 6;
         int heightOfParkingSlot = (getHeight() - 200) / 3;
-        int hotizontalWidth = getWidth();
+        int horizontalWidth = getWidth();
 
 
         Log.i(debug, "entering while");
@@ -76,7 +95,7 @@ public class CustomView extends View {
             paint.setColor(Color.parseColor("#da4747"));
         }
 
-        canvas.drawRect(hotizontalWidth, heightOfParkingSlot - PARKING_VERTICAL_PADDING, horizontalParkingSlot + MIDDLE_LINE + PARKING_HORIZONTAL_PADDING, PARKING_VERTICAL_PADDING, paint);
+        canvas.drawRect(horizontalWidth, heightOfParkingSlot - PARKING_VERTICAL_PADDING, horizontalParkingSlot + MIDDLE_LINE + PARKING_HORIZONTAL_PADDING, PARKING_VERTICAL_PADDING, paint);
 
         if (parkingPlaces.get(2).getAvailability() == 1) {
             paint.setColor(Color.parseColor("#32CD32"));
@@ -92,7 +111,7 @@ public class CustomView extends View {
             paint.setColor(Color.parseColor("#da4747"));
         }
 
-        canvas.drawRect(hotizontalWidth, heightOfParkingSlot * 2 - PARKING_VERTICAL_PADDING, horizontalParkingSlot + MIDDLE_LINE + PARKING_HORIZONTAL_PADDING, heightOfParkingSlot + PARKING_VERTICAL_PADDING, paint);
+        canvas.drawRect(horizontalWidth, heightOfParkingSlot * 2 - PARKING_VERTICAL_PADDING, horizontalParkingSlot + MIDDLE_LINE + PARKING_HORIZONTAL_PADDING, heightOfParkingSlot + PARKING_VERTICAL_PADDING, paint);
 
         if (parkingPlaces.get(4).getAvailability() == 1) {
             paint.setColor(Color.parseColor("#32CD32"));
@@ -108,7 +127,7 @@ public class CustomView extends View {
             paint.setColor(Color.parseColor("#da4747"));
         }
 
-        canvas.drawRect(hotizontalWidth, heightOfParkingSlot * 3 - PARKING_VERTICAL_PADDING, horizontalParkingSlot + MIDDLE_LINE + PARKING_HORIZONTAL_PADDING, heightOfParkingSlot * 2 + PARKING_VERTICAL_PADDING, paint);
+        canvas.drawRect(horizontalWidth, heightOfParkingSlot * 3 - PARKING_VERTICAL_PADDING, horizontalParkingSlot + MIDDLE_LINE + PARKING_HORIZONTAL_PADDING, heightOfParkingSlot * 2 + PARKING_VERTICAL_PADDING, paint);
 
         // linearLayout.setBackground(new BitmapDrawable(bitmap));
 
@@ -132,6 +151,14 @@ public class CustomView extends View {
     }
 
     /**
+     * Updates the database.
+     */
+    private void updateDatabase() {
+        for (ParsedParking item : parkingPlaces)
+            mDbHelper.updateData(String.valueOf(item.getId()), item.getAvailability(), item.getName());
+    }
+
+    /**
      * Sends TCP packets to the server to receive the new data-base info.
      * It uses a Future object to receive the date form the OutputStream.
      */
@@ -147,6 +174,7 @@ public class CustomView extends View {
             Log.i(debug, "waiting for the future object");
             response = future.get(3000, TimeUnit.MILLISECONDS);
             parkingPlaces = (List<ParsedParking>) response.getData();
+            updateDatabase();
             Log.i(debug, parkingPlaces.toString());
 
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
@@ -156,9 +184,4 @@ public class CustomView extends View {
             ex.shutdown();
         }
     }
-
-    public List<ParsedParking> parkingPlaces() {
-        return this.parkingPlaces;
-    }
-
 }

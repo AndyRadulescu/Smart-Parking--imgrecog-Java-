@@ -3,6 +3,7 @@ package com.example.anama.parkingapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -31,16 +32,9 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
     DbHelper mDbHelper;
     private Handler mHandler;
 
-    public static List<ParsedParking> getParkingArray() {
-        return parkingArray;
-    }
-
-    //TODO: finish the database update and select
-    //TODO: add asincTask run in background to help with the server.
     //TODO: Stylise the UI si it fits for every android device.
     //TODO: easy translatable
     //TODO: blind accessibility
-    //TODO: sql database that saves the parking so it can work offline
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +44,20 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
 
         ConnectionDetector cd = new ConnectionDetector(this);
         if (!cd.isConnected()) {
+            //database selection
+            Cursor cursor = mDbHelper.getAllData();
+            if (cursor.moveToFirst()) {
+                do {
+                    String id = cursor.getString(cursor.getColumnIndex("ID"));
+                    String availability = cursor.getString(cursor.getColumnIndex("availability"));
+                    String name = cursor.getString(cursor.getColumnIndex("name"));
+                    parkingArray.add(new ParsedParking(Integer.parseInt(id), name, Integer.parseInt(availability)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+            Log.d(debug, String.valueOf(parkingArray));
+
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("Server connection Error");
             alertDialog.setMessage("Only works on wi-fi/localhost.\n Switch to wi-fi and restart the app!");
@@ -57,10 +65,15 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            Intent nextFrame = new Intent(MainActivity.this, Main2Activity.class);
+                            startActivity(nextFrame);
+                            finish();
                             finish();
                         }
                     });
             alertDialog.show();
+
+
         } else {
             goToNextIntentIfConnected();
 
@@ -111,6 +124,9 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
         }
     }
 
+    /**
+     * Updates the database.
+     */
     private void updateDatabase() {
         for (ParsedParking item : parkingArray)
             mDbHelper.updateData(String.valueOf(item.getId()), item.getAvailability(), item.getName());

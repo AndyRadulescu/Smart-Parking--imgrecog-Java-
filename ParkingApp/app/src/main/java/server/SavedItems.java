@@ -7,14 +7,14 @@ package server;
 
 public interface SavedItems {
     int PORT = 6789;
-    String IP = "192.168.1.5";
+    String IP = "192.168.100.63";
     int TAKEALL = 1;
     String debug = "debug";
 
 
     //parking//
 
-    
+
     int MIDDLE_WHITE_LINES = 15;
     int MIDDLE_LINE = 175;
     int DISTANCE_HEIGHT_LINES = 70;
