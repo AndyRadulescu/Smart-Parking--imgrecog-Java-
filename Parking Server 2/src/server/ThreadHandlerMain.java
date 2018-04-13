@@ -26,7 +26,6 @@ public class ThreadHandlerMain implements SavedItems {// clasa main a serverului
 
 	public static void main(String[] args) throws IOException {
 		new ThreadHandlerMain().startServer();
-
 	}
 
 	public void startServer() throws IOException {
@@ -57,6 +56,5 @@ public class ThreadHandlerMain implements SavedItems {// clasa main a serverului
 			emf.close();
 			executorService.shutdown();
 		}
-
 	}
 }

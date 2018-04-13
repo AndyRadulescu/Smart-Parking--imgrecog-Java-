@@ -1,7 +1,6 @@
 package com.example.anama.parkingapp;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,6 +21,7 @@ import model.DbHelper;
 import model.ParsedParking;
 import server.ClientThread;
 import server.Message;
+import server.service.DBService;
 
 import static server.SavedItems.DISTANCE_HEIGHT_LINES;
 import static server.SavedItems.MIDDLE_LINE;
@@ -32,9 +32,9 @@ import static server.SavedItems.TAKEALL;
 import static server.SavedItems.debug;
 
 /**
- * Created by Andy Radulescu on 10/23/2017.
+ * Created by Andy Radulescu.
+ * This class updates the UI accordingly.
  */
-
 public class CustomView extends View {
 
     private volatile List<ParsedParking> parkingPlaces = new ArrayList<>();
@@ -45,23 +45,7 @@ public class CustomView extends View {
         super(context, attrs);
         this.paint = new Paint();
         mDbHelper = new DbHelper(context);
-        getInfoFromDb();
-    }
-
-    /**
-     * Selects the parking info from the database.
-     */
-    private void getInfoFromDb() {
-        Cursor cursor = mDbHelper.getAllData();
-        if (cursor.moveToFirst()) {
-            do {
-                String id = cursor.getString(cursor.getColumnIndex("ID"));
-                String availability = cursor.getString(cursor.getColumnIndex("availability"));
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                parkingPlaces.add(new ParsedParking(Integer.parseInt(id), name, Integer.parseInt(availability)));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+        parkingPlaces = DBService.getInfoFromDb(mDbHelper, parkingPlaces);
     }
 
     @Override
@@ -151,14 +135,6 @@ public class CustomView extends View {
     }
 
     /**
-     * Updates the database.
-     */
-    private void updateDatabase() {
-        for (ParsedParking item : parkingPlaces)
-            mDbHelper.updateData(String.valueOf(item.getId()), item.getAvailability(), item.getName());
-    }
-
-    /**
      * Sends TCP packets to the server to receive the new data-base info.
      * It uses a Future object to receive the date form the OutputStream.
      */
@@ -170,11 +146,11 @@ public class CustomView extends View {
         Future<Message> future = ex.submit(client);
         try {
             Log.i(debug, "Starting...");
-            Message response = new Message();
+            Message response;
             Log.i(debug, "waiting for the future object");
             response = future.get(3000, TimeUnit.MILLISECONDS);
             parkingPlaces = (List<ParsedParking>) response.getData();
-            updateDatabase();
+            DBService.updateDatabase(mDbHelper, parkingPlaces);
             Log.i(debug, parkingPlaces.toString());
 
         } catch (InterruptedException | ExecutionException | TimeoutException e) {

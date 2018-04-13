@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                             Intent nextFrame = new Intent(MainActivity.this, Main2Activity.class);
                             startActivity(nextFrame);
                             finish();
-                            finish();
                         }
                     });
             alertDialog.show();

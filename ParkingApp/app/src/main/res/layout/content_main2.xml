@@ -25,7 +25,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="63dp"
@@ -34,6 +33,19 @@
             android:shadowDy="5"
             android:shadowRadius="5"
             android:text="@string/select_the_parking_lot"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="30sp" />
+
+
+        <TextView
+            android:id="@+id/numberOfPlaces"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#7B1FA2"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="5"
+            android:text="test"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp" />
 
@@ -46,26 +58,27 @@
             <Button
                 android:id="@+id/button13"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/button_selector"
-                android:onClick="Action"
+                android:onClick="showParking"
                 android:shadowColor="#7B1FA2"
                 android:shadowDx="-5"
                 android:shadowDy="5"
                 android:shadowRadius="5"
                 android:text="@string/section_1"
+                android:textAlignment="gravity"
                 android:textColor="@android:color/holo_red_dark" />
 
             <Button
                 android:id="@+id/button6"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
                 android:layout_marginEnd="50dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/button_selector"
                 android:shadowColor="#7B1FA2"
                 android:shadowDx="-5"
@@ -78,9 +91,9 @@
             <Button
                 android:id="@+id/button12"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom|start"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="100dp"
                 android:layout_marginStart="50dp"
                 android:background="@drawable/button_selector"
                 android:shadowColor="#7B1FA2"
@@ -93,9 +106,9 @@
             <Button
                 android:id="@+id/button8"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="100dp"
                 android:layout_marginEnd="50dp"
                 android:background="@drawable/button_selector"
                 android:shadowColor="#7B1FA2"
@@ -104,7 +117,6 @@
                 android:shadowRadius="5"
                 android:text="@string/section_4"
                 android:textColor="@android:color/holo_red_dark" />
-
 
         </GridLayout>
     </LinearLayout>
