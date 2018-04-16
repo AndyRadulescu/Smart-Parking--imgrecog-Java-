@@ -1,4 +1,4 @@
-package com.example.anama.parkingapp;
+package com.smart.andyradulescu.parkingapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

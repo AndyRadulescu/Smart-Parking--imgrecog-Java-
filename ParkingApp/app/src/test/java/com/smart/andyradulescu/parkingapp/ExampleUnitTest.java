@@ -1,4 +1,4 @@
-package com.example.anama.parkingapp;
+package com.smart.andyradulescu.parkingapp;
 
 import org.junit.Test;
 

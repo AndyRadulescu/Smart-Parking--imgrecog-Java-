@@ -1,4 +1,4 @@
-package com.example.anama.parkingapp;
+package com.smart.andyradulescu.parkingapp;
 
 import android.content.Context;
 import android.graphics.Canvas;
