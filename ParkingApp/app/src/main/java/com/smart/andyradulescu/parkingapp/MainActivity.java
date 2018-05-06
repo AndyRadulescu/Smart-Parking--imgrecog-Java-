@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                     try {
                         Message response = new Message();
                         Log.i(debug, "waiting for the future object");
-                        response = future.get(3000, TimeUnit.MILLISECONDS);
+                        response = future.get(timeout * 1000, TimeUnit.MILLISECONDS);
                         isConnectedToServer = true;
                         parkingArray = (List<ParsedParking>) response.getData();
                         updateDatabase();

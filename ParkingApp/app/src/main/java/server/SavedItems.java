@@ -10,6 +10,7 @@ public interface SavedItems {
     String IP = "YOUR_IP";
     int TAKEALL = 1;
     String debug = "debug";
+    int timeout = 3;
 
 
     //parking//

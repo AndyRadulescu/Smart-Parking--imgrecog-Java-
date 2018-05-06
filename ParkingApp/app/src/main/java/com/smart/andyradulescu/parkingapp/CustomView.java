@@ -21,6 +21,7 @@ import model.DbHelper;
 import model.ParsedParking;
 import server.ClientThread;
 import server.Message;
+import server.SavedItems;
 import server.service.DBService;
 
 import static server.SavedItems.DISTANCE_HEIGHT_LINES;
@@ -35,7 +36,7 @@ import static server.SavedItems.debug;
  * Created by Andy Radulescu.
  * This class updates the UI accordingly.
  */
-public class CustomView extends View {
+public class CustomView extends View implements SavedItems {
 
     private volatile List<ParsedParking> parkingPlaces = new ArrayList<>();
     private Paint paint;
@@ -148,7 +149,7 @@ public class CustomView extends View {
             Log.i(debug, "Starting...");
             Message response;
             Log.i(debug, "waiting for the future object");
-            response = future.get(3000, TimeUnit.MILLISECONDS);
+            response = future.get(timeout * 1000, TimeUnit.MILLISECONDS);
             parkingPlaces = (List<ParsedParking>) response.getData();
             DBService.updateDatabase(mDbHelper, parkingPlaces);
             Log.i(debug, parkingPlaces.toString());

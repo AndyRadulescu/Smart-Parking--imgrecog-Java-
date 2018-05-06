@@ -1,8 +1,12 @@
 package server;
 
+/**
+ * Items used throughout the application.
+ */
 public interface SavedItems {
-	public final int PORT = 6789;
-	public final String IP = "localhost";
-	public final int TAKEALL = 1;
-	public final int UPDATE = 2;
+    int PORT = 6789;
+    String IP = "localhost";
+    int TAKEALL = 1;
+    int UPDATE = 2;
+    int DBSIZE = 6;
 }
