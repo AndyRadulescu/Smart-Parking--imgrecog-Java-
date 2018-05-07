@@ -39,6 +39,8 @@ For scalability, in the backend, Maven has been used. This makes the project ext
 The backend uses a TCP socket connection to communicate with the android client. This is raw, and no api was used to facilitate an easier 
 implementation.
 
+`The database must run on port 3306, user "root", password: "1q2w3e"`
+
 The backend looks in the images folder `which has not been provided in this app. Manually an "images" folder must be created in: src/main`
 ad there images with parking spots with cars and no cars must be placed.
 From the images folder, 6 RANDOM images are picked and sent to the Microsoft API.
