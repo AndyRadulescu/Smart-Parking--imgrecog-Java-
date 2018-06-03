@@ -1,7 +1,8 @@
 package server;
 
+import helper.SavedItems;
 import model.Parking;
-import model.ParsedParking;
+import model.ParkingDTO;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
@@ -47,11 +48,11 @@ public class ClientServerThread implements Runnable, SavedItems {
      *
      * @throws IOException
      */
-    public synchronized void getFromClient() throws IOException {
+    private synchronized void getFromClient() throws IOException {
         try (ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
              ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
             OperationDAO dao = new OperationDAO(emf);
-            Message result = chooseOper(in, dao);
+            Message result = chooseOperation(in, dao);
             out.writeObject(result);
 
             emf.getCache().evictAll();
@@ -73,11 +74,11 @@ public class ClientServerThread implements Runnable, SavedItems {
      * @param dao does the operation on the database
      * @return Message
      */
-    public Message getAllStatus(OperationDAO dao) {
+    private Message getAllStatus(OperationDAO dao) {
         Message ms = new Message();
         List<Parking> array = new ArrayList<>();
         array.addAll(dao.getAllStatus());
-        List<ParsedParking> parsedArray = parse(array);
+        List<ParkingDTO> parsedArray = parse(array);
         ms.setData(parsedArray);
         return ms;
     }
@@ -86,13 +87,14 @@ public class ClientServerThread implements Runnable, SavedItems {
      * Creates a pojo array to be sent.
      *
      * @param array
-     * @return
+     * @return a list of the parking lot.
      */
-    public List<ParsedParking> parse(List<Parking> array) {
-        List<ParsedParking> parsedArray = new ArrayList<>();
-        for (int i = 0; i < array.size(); i++)
+    private List<ParkingDTO> parse(List<Parking> array) {
+        List<ParkingDTO> parsedArray = new ArrayList<>();
+        for (Parking anArray : array) {
             parsedArray.add(
-                    new ParsedParking(array.get(i).getId(), array.get(i).getName(), array.get(i).getAvailability()));
+                    new ParkingDTO(anArray.getId(), anArray.getName(), anArray.getAvailability()));
+        }
         return parsedArray;
     }
 
@@ -106,16 +108,14 @@ public class ClientServerThread implements Runnable, SavedItems {
      */
 
     // better than switch
-    public Message chooseOper(ObjectInputStream in, OperationDAO dao) {
+    private Message chooseOperation(ObjectInputStream in, OperationDAO dao) {
 
         Message ms = new Message();
         Message result = new Message();
         Map<Integer, Operation> map = new HashMap<>();
         try {
             ms = (Message) in.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         map.put(SavedItems.TAKEALL, new Operation() {
@@ -142,5 +142,4 @@ public class ClientServerThread implements Runnable, SavedItems {
         }
         return result;
     }
-
 }

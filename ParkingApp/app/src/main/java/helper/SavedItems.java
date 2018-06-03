@@ -1,4 +1,4 @@
-package server;
+package helper;
 
 /**
  * Created by AndyRadulescu on 4/26/2017.
@@ -7,10 +7,10 @@ package server;
 
 public interface SavedItems {
     int PORT = 6789;
-    String IP = "YOUR_IP";
+    String IP = "192.168.100.79";
     int TAKEALL = 1;
     String debug = "debug";
-    int timeout = 3;
+    int timeout = 5;
 
 
     //parking//

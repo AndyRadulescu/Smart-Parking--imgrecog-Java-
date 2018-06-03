@@ -13,22 +13,24 @@
         android:roundIcon="@mipmap/bmw_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.smart.andyradulescu.parkingapp.MainActivity">
+        <activity
+            android:name="com.smart.andyradulescu.parkingapp.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.smart.andyradulescu.parkingapp.Main2Activity"
             android:label="Smart Parking"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.smart.andyradulescu.parkingapp.Main3Activity"
             android:label="Smart Parking"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
-
 </manifest>

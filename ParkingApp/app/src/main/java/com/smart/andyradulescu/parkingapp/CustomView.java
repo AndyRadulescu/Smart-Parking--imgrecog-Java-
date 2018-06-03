@@ -5,32 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
+import helper.SavedItems;
+import model.DBService;
 import model.DbHelper;
-import model.ParsedParking;
-import server.ClientThread;
-import server.Message;
-import server.SavedItems;
-import server.service.DBService;
-
-import static server.SavedItems.DISTANCE_HEIGHT_LINES;
-import static server.SavedItems.MIDDLE_LINE;
-import static server.SavedItems.MIDDLE_WHITE_LINES;
-import static server.SavedItems.PARKING_HORIZONTAL_PADDING;
-import static server.SavedItems.PARKING_VERTICAL_PADDING;
-import static server.SavedItems.TAKEALL;
-import static server.SavedItems.debug;
+import model.ParkingDTO;
+import server.service.GetDataFromBackendThread;
 
 /**
  * Created by Andy Radulescu.
@@ -38,15 +22,20 @@ import static server.SavedItems.debug;
  */
 public class CustomView extends View implements SavedItems {
 
-    private volatile List<ParsedParking> parkingPlaces = new ArrayList<>();
+    GetDataFromBackendThread info;
+    private List<ParkingDTO> parkingPlaces;
     private Paint paint;
-    private DbHelper mDbHelper;
+    private Context context;
 
     public CustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
+        parkingPlaces = new ArrayList<>();
         this.paint = new Paint();
-        mDbHelper = new DbHelper(context);
-        parkingPlaces = DBService.getInfoFromDb(mDbHelper, parkingPlaces);
+        DbHelper mDbHelper = new DbHelper(context);
+        parkingPlaces = DBService.getInfoFromDb(mDbHelper);
+        info = new GetDataFromBackendThread(context);
+        new Thread(info).start();
     }
 
     @Override
@@ -62,10 +51,7 @@ public class CustomView extends View implements SavedItems {
         int heightOfParkingSlot = (getHeight() - 200) / 3;
         int horizontalWidth = getWidth();
 
-
-        Log.i(debug, "entering while");
         //parking lot
-
         if (parkingPlaces.get(0).getAvailability() == 1) {
             paint.setColor(Color.parseColor("#32CD32"));
         } else {
@@ -128,8 +114,6 @@ public class CustomView extends View implements SavedItems {
         canvas.drawRect(horizontalParkingSlot + MIDDLE_WHITE_LINES, heightOfLine * 5 - DISTANCE_HEIGHT_LINES, horizontalParkingSlot - MIDDLE_WHITE_LINES, heightOfLine * 4 + DISTANCE_HEIGHT_LINES, paint);
         canvas.drawRect(horizontalParkingSlot + MIDDLE_WHITE_LINES, heightOfLine * 6 - DISTANCE_HEIGHT_LINES, horizontalParkingSlot - MIDDLE_WHITE_LINES, heightOfLine * 5 + DISTANCE_HEIGHT_LINES, paint);
 
-        Log.i(debug, "-------------------finished--------------------");
-
         reinitialize();
 
         invalidate();
@@ -140,25 +124,6 @@ public class CustomView extends View implements SavedItems {
      * It uses a Future object to receive the date form the OutputStream.
      */
     private void reinitialize() {
-        ExecutorService ex = Executors.newSingleThreadExecutor();
-
-        Message ms = new Message(TAKEALL, null);
-        ClientThread client = new ClientThread(ms);
-        Future<Message> future = ex.submit(client);
-        try {
-            Log.i(debug, "Starting...");
-            Message response;
-            Log.i(debug, "waiting for the future object");
-            response = future.get(timeout * 1000, TimeUnit.MILLISECONDS);
-            parkingPlaces = (List<ParsedParking>) response.getData();
-            DBService.updateDatabase(mDbHelper, parkingPlaces);
-            Log.i(debug, parkingPlaces.toString());
-
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            Log.d(debug, "Error", e);
-            future.cancel(true); //this method will stop the running underlying task
-        } finally {
-            ex.shutdown();
-        }
+        this.parkingPlaces = info.parkingPlaces;
     }
 }

@@ -18,18 +18,18 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import helper.ConnectionDetector;
+import helper.SavedItems;
 import model.DbHelper;
-import model.ParsedParking;
+import model.ParkingDTO;
 import server.ClientThread;
-import server.ConnectionDetector;
 import server.Message;
-import server.SavedItems;
 
 public class MainActivity extends AppCompatActivity implements SavedItems {
 
-    private static List<ParsedParking> parkingArray = new ArrayList<>();
-    private boolean isConnectedToServer = false;
+    private static List<ParkingDTO> parkingArray = new ArrayList<>();
     DbHelper mDbHelper;
+    private boolean isConnectedToServer = false;
     private Handler mHandler;
 
     //TODO: Stylise the UI si it fits for every android device.
@@ -51,28 +51,14 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                     String id = cursor.getString(cursor.getColumnIndex("ID"));
                     String availability = cursor.getString(cursor.getColumnIndex("availability"));
                     String name = cursor.getString(cursor.getColumnIndex("name"));
-                    parkingArray.add(new ParsedParking(Integer.parseInt(id), name, Integer.parseInt(availability)));
+                    parkingArray.add(new ParkingDTO(Integer.parseInt(id), name, Integer.parseInt(availability)));
                 } while (cursor.moveToNext());
             }
             cursor.close();
 
             Log.d(debug, String.valueOf(parkingArray));
 
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle("Server connection Error");
-            alertDialog.setMessage("Only works on wi-fi/localhost.\n Switch to wi-fi and restart the app!");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Intent nextFrame = new Intent(MainActivity.this, Main2Activity.class);
-                            startActivity(nextFrame);
-                            finish();
-                        }
-                    });
-            alertDialog.show();
-
-
+            alert();
         } else {
             goToNextIntentIfConnected();
 
@@ -88,9 +74,9 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                     try {
                         Message response = new Message();
                         Log.i(debug, "waiting for the future object");
-                        response = future.get(timeout * 1000, TimeUnit.MILLISECONDS);
+                        response = future.get(timeout, TimeUnit.SECONDS);
                         isConnectedToServer = true;
-                        parkingArray = (List<ParsedParking>) response.getData();
+                        parkingArray = (List<ParkingDTO>) response.getData();
                         updateDatabase();
                         Log.i(debug, parkingArray.toString());
 
@@ -100,18 +86,7 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
                         future.cancel(true); //this method will stop the running underlying task
                         mHandler.post(new Runnable() {
                             public void run() {
-                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                                alertDialog.setTitle("Server connection Error");
-                                alertDialog.setMessage("The server might be down..\n " +
-                                        "Retry in a few minutes.");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        });
-                                alertDialog.show();
+                                alert();
                             }
                         });
                     } finally {
@@ -123,12 +98,43 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
         }
     }
 
+    private void alertOnClickDismiss(DialogInterface dialog) {
+        dialog.dismiss();
+        Intent nextFrame = new Intent(MainActivity.this, Main2Activity.class);
+        startActivity(nextFrame);
+        finish();
+    }
+
+    /**
+     * Display an alert dialog.
+     */
+    public void alert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Server connection Error");
+        alertDialog.setMessage("Only works on wi-fi/localhost.\n Switch to wi-fi and restart the app!");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertOnClickDismiss(dialog);
+                    }
+                });
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                alertOnClickDismiss(dialog);
+            }
+        });
+        alertDialog.show();
+    }
+
     /**
      * Updates the database.
      */
     private void updateDatabase() {
-        for (ParsedParking item : parkingArray)
+        for (ParkingDTO item : parkingArray) {
             mDbHelper.updateData(String.valueOf(item.getId()), item.getAvailability(), item.getName());
+        }
     }
 
     /**

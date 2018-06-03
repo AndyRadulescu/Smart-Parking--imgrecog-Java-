@@ -1,4 +1,4 @@
-package server;
+package helper;
 
 /**
  * Items used throughout the application.

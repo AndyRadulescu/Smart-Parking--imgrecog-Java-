@@ -1,5 +1,7 @@
 package server;
 
+import helper.SavedItems;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class ThreadHandlerMain implements SavedItems {// clasa main a serverului
             ip = InetAddress.getLocalHost();
             System.out.println(ip.getHostAddress());
 
-            Thread automation = new Thread(new UpdateParking(sm, emf));
+            Thread automation = new Thread(new UpdateParkingTest(sm, emf));
             System.out.println("Accepting connections on port " + PORT);
             executorService.execute(automation);
 

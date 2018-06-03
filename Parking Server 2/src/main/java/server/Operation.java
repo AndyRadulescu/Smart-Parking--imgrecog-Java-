@@ -1,5 +1,5 @@
 package server;
 
 public interface Operation {
-	public Message doOperation(Message message);
+    Message doOperation(Message message);
 }

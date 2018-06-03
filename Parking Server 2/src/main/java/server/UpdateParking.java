@@ -1,5 +1,6 @@
 package server;
 
+import helper.SavedItems;
 import server.recognition.RecognitionMain;
 
 import javax.persistence.EntityManagerFactory;

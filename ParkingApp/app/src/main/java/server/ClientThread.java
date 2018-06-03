@@ -8,13 +8,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.Callable;
 
+import helper.SavedItems;
+import server.Message;
+
 
 /**
  * Thread that is used to send/recive messages to/from server.
  */
 public class ClientThread implements Callable<Message>, SavedItems {
     private Message ms;
-    private String debug = "debug";
 
     @Override
     public Message call() throws IOException, ClassNotFoundException {

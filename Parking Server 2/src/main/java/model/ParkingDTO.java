@@ -2,7 +2,10 @@ package model;
 
 import java.io.Serializable;
 
-public class ParsedParking implements Serializable {
+/**
+ * The class that generates objects to pe sent throw sockets.
+ */
+public class ParkingDTO implements Serializable {
 
     /**
      *
@@ -12,10 +15,14 @@ public class ParsedParking implements Serializable {
     private String name;
     private int availability;
 
-    public ParsedParking(int id, String name, int availability) {
+    public ParkingDTO(int id, String name, int availability) {
         this.id = id;
         this.name = name;
         this.availability = availability;
+    }
+
+    public ParkingDTO() {
+
     }
 
     public int getId() {

@@ -1,11 +1,9 @@
-package server.service;
+package model;
 
 import android.database.Cursor;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import model.DbHelper;
-import model.ParsedParking;
 
 /**
  * Created by Andy Radulescu
@@ -17,14 +15,16 @@ public class DBService {
     /**
      * Selects the parking info from the database.
      */
-    public static List<ParsedParking> getInfoFromDb(DbHelper mDbHelper, List<ParsedParking> parkingPlaces) {
+    public static List<ParkingDTO> getInfoFromDb(DbHelper mDbHelper) {
+        List<ParkingDTO> parkingPlaces = new ArrayList<>();
+        parkingPlaces.clear();
         try (Cursor cursor = mDbHelper.getAllData()) {
             if (cursor.moveToFirst()) {
                 do {
                     String id = cursor.getString(cursor.getColumnIndex("ID"));
                     String availability = cursor.getString(cursor.getColumnIndex("availability"));
                     String name = cursor.getString(cursor.getColumnIndex("name"));
-                    parkingPlaces.add(new ParsedParking(Integer.parseInt(id), name, Integer.parseInt(availability)));
+                    parkingPlaces.add(new ParkingDTO(Integer.parseInt(id), name, Integer.parseInt(availability)));
                 } while (cursor.moveToNext());
             }
             return parkingPlaces;
@@ -34,8 +34,9 @@ public class DBService {
     /**
      * Updates the database.
      */
-    public static void updateDatabase(DbHelper mDbHelper, List<ParsedParking> parkingPlaces) {
-        for (ParsedParking item : parkingPlaces)
+    public static void updateDatabase(DbHelper mDbHelper, List<ParkingDTO> parkingPlaces) {
+        for (ParkingDTO item : parkingPlaces) {
             mDbHelper.updateData(String.valueOf(item.getId()), item.getAvailability(), item.getName());
+        }
     }
 }

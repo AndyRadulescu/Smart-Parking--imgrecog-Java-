@@ -49,5 +49,4 @@ public class OperationDAO {// toate operatile pe baza de date
         em.getTransaction().commit();
         em.close();
     }
-
 }
