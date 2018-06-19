@@ -19,8 +19,8 @@ import java.util.concurrent.Callable;
  * Gets information out of an image, observing if there is a car or not.
  */
 public class RecognitionMain implements Callable {
-    public static final String subscriptionKey = "KEY";
-    public static final String uriBase = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/analyze";
+    private static final String subscriptionKey = "KEY";
+    private static final String uriBase = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/analyze";
 
     public Boolean call() {
         HttpClient httpclient = new DefaultHttpClient();

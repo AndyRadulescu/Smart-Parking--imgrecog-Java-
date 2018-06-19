@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/super_cool_parking_lot"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.smart.andyradulescu.parkingapp.Main2Activity"
     tools:showIn="@layout/activity_main2">
@@ -36,7 +36,6 @@
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp" />
 
-
         <TextView
             android:id="@+id/numberOfPlaces"
             android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
             android:shadowDx="5"
             android:shadowDy="5"
             android:shadowRadius="5"
-            android:text="test"
+            android:text=""
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp" />
 

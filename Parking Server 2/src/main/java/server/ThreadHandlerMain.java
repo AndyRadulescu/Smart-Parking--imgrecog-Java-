@@ -1,6 +1,8 @@
 package server;
 
 import helper.SavedItems;
+import server.service.ClientServerThread;
+import server.service.UpdateParkingTest;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,13 +21,13 @@ import java.util.concurrent.Semaphore;
 public class ThreadHandlerMain implements SavedItems {// clasa main a serverului
 
     private ServerSocket ss = null;
-    private volatile boolean cond = true;
+    private volatile boolean isRunning = true;
 
     public static void main(String[] args) throws IOException {
         new ThreadHandlerMain().startServer();
     }
 
-    public void startServer() throws IOException {
+    private void startServer() throws IOException {
         Semaphore sm = new Semaphore(1, true);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Parking Server 2");
         ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -40,7 +42,7 @@ public class ThreadHandlerMain implements SavedItems {// clasa main a serverului
             System.out.println("Accepting connections on port " + PORT);
             executorService.execute(automation);
 
-            while (cond) {
+            while (isRunning) {
                 Socket sock = ss.accept();
                 executorService.execute(new Thread(new ClientServerThread(sock, sm, emf)));
 

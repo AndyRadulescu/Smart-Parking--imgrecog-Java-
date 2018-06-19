@@ -10,9 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Parking.findAll", query="SELECT p FROM Parking p")
-public class Parking implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Parking {
 	@Id
 	private int id;
 

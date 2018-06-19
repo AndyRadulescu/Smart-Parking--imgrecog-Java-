@@ -7,15 +7,11 @@ package helper;
 
 public interface SavedItems {
     int PORT = 6789;
-    String IP = "192.168.100.79";
+    String IP = "192.168.1.170";
     int TAKEALL = 1;
     String debug = "debug";
     int timeout = 5;
-
-
     //parking//
-
-
     int MIDDLE_WHITE_LINES = 15;
     int MIDDLE_LINE = 175;
     int DISTANCE_HEIGHT_LINES = 70;

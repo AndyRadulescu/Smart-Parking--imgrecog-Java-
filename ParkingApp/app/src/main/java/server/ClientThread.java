@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.util.concurrent.Callable;
 
 import helper.SavedItems;
-import server.Message;
 
 
 /**
@@ -17,6 +16,10 @@ import server.Message;
  */
 public class ClientThread implements Callable<Message>, SavedItems {
     private Message ms;
+
+    public ClientThread(Message ms) {
+        this.ms = ms;
+    }
 
     @Override
     public Message call() throws IOException, ClassNotFoundException {
@@ -27,14 +30,10 @@ public class ClientThread implements Callable<Message>, SavedItems {
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         out.writeObject(ms);
         out.flush();
-        Message resp = (Message) in.readObject();
+        Message response = (Message) in.readObject();
         socket.close();
         Log.i(debug, "the socket has been closed!");
-        return resp;
-    }
-
-    public ClientThread(Message ms) {
-        this.ms = ms;
+        return response;
     }
 
     public Message getMessage() {

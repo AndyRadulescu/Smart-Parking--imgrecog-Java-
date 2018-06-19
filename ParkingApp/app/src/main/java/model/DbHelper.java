@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Andy Radulescu on 12/23/2017.
  */
-
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
@@ -50,14 +49,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return db.rawQuery("select * from " + TABLE_NAME, null);
     }
 
-    public boolean updateData(String id, int availability, String name) {
+    public void updateData(String id, int availability, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_0, id);
         contentValues.put(COL_1, availability);
         contentValues.put(COL_2, name);
         db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{id});
-
-        return true;
     }
 }

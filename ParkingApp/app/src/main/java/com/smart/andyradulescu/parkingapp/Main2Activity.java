@@ -22,7 +22,6 @@ public class Main2Activity extends AppCompatActivity {
     private volatile List<ParkingDTO> parkingPlaces;
     private TextView mTvParkingPlaces;
 
-    //TODO: add the label to show how many available places are in the data packing lot.
     private volatile boolean isRunning;
 
     @Override

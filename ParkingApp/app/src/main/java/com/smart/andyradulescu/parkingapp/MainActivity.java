@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
     private boolean isConnectedToServer = false;
     private Handler mHandler;
 
-    //TODO: Stylise the UI si it fits for every android device.
-    //TODO: easy translatable
-    //TODO: blind accessibility
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
         mDbHelper = new DbHelper(this);
         mHandler = new Handler();
 
-        ConnectionDetector cd = new ConnectionDetector(this);
-        if (!cd.isConnected()) {
+        ConnectionDetector detector = new ConnectionDetector(this);
+        if (!detector.isConnected()) {
             //database selection
             Cursor cursor = mDbHelper.getAllData();
             if (cursor.moveToFirst()) {

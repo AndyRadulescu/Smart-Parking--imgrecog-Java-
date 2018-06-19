@@ -12,7 +12,6 @@ public class Main3Activity extends AppCompatActivity implements SavedItems {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(debug, "mortii ma-sii din onCreate");
         setContentView(R.layout.activity_main3);
     }
 
