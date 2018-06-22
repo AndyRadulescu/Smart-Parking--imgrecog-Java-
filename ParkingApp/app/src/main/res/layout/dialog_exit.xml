@@ -20,7 +20,7 @@
         android:id="@+id/no"
         android:layout_width="65dp"
         android:layout_height="40dip"
-        android:background="@drawable/background"
+
         android:gravity="center"
         android:text="NO"
         android:textColor="@android:color/holo_red_dark"
@@ -34,7 +34,7 @@
         android:id="@+id/yes"
         android:layout_width="65dp"
         android:layout_height="40dip"
-        android:background="@drawable/background"
+
         android:gravity="center"
         android:text="yes"
         android:textColor="@android:color/holo_red_dark"

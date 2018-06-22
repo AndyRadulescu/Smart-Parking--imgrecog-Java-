@@ -3,5 +3,9 @@
     <color name="colorPrimary">#0a0101</color>
     <color name="colorPrimaryDark">#050d01</color>
     <color name="colorAccent">#080000</color>
-    <color name="intrestingBlue">#64FFDA</color>
+    <color name="intrestingBlue">#607ea0</color>
+    <color name="shadowTextColor">#283949</color>
+    <color name="textColor">#bb7059</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

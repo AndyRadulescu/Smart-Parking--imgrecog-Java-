@@ -75,7 +75,7 @@ public class Main2Activity extends AppCompatActivity {
                 nr++;
             }
         }
-        String numberOfPlaces = "Number of available places: " + String.valueOf(nr);
+        String numberOfPlaces = "places: " + String.valueOf(nr);
         mTvParkingPlaces.setText(numberOfPlaces);
     }
 

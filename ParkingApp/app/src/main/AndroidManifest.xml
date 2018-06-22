@@ -14,23 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.smart.andyradulescu.parkingapp.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.smart.andyradulescu.parkingapp.Main2Activity"
+            android:name=".Main2Activity"
             android:label="Smart Parking"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.smart.andyradulescu.parkingapp.Main3Activity"
+            android:name=".Main3Activity"
             android:label="Smart Parking"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name="com.example.anama.parkingapp.Section2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_section2"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"/>
     </application>
+
 </manifest>
