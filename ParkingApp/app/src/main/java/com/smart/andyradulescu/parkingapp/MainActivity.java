@@ -1,13 +1,15 @@
 package com.smart.andyradulescu.parkingapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import model.ParkingDTO;
 import server.ClientThread;
 import server.Message;
 
-public class MainActivity extends AppCompatActivity implements SavedItems {
+public class MainActivity extends Activity implements SavedItems {
 
     private static List<ParkingDTO> parkingArray = new ArrayList<>();
     DbHelper mDbHelper;
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements SavedItems {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mDbHelper = new DbHelper(this);
         mHandler = new Handler();

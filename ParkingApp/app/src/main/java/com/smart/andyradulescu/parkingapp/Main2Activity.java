@@ -1,10 +1,12 @@
 package com.smart.andyradulescu.parkingapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import server.service.GetDataFromBackendThread;
 
 import static helper.SavedItems.debug;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends Activity {
 
     GetDataFromBackendThread info;
     private volatile List<ParkingDTO> parkingPlaces;
@@ -27,6 +29,9 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main2);
     }
 
@@ -80,12 +85,45 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     /**
-     * Goes to the parking section.
+     * Goes to the parking section1.
      *
      * @param v view for the onClick method.
      */
-    public void showParking(View v) {
-        Intent nextFrame = new Intent(Main2Activity.this, Main3Activity.class);
+    public void showParking1(View v) {
+        Intent nextFrame = new Intent(Main2Activity.this, Section1Activity.class);
+        startActivity(nextFrame);
+        isRunning = false;
+    }
+
+    /**
+     * Goes to the parking section2.
+     *
+     * @param v view for the onClick method.
+     */
+    public void showParking2(View v) {
+        Intent nextFrame = new Intent(Main2Activity.this, Section2Activity.class);
+        startActivity(nextFrame);
+        isRunning = false;
+    }
+
+    /**
+     * Goes to the parking section3.
+     *
+     * @param v view for the onClick method.
+     */
+    public void showParking3(View v) {
+        Intent nextFrame = new Intent(Main2Activity.this, Section3Activity.class);
+        startActivity(nextFrame);
+        isRunning = false;
+    }
+
+    /**
+     * Goes to the parking section4.
+     *
+     * @param v view for the onClick method.
+     */
+    public void showParking4(View v) {
+        Intent nextFrame = new Intent(Main2Activity.this, Section4Activity.class);
         startActivity(nextFrame);
         isRunning = false;
     }

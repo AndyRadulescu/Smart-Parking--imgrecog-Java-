@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.smart.andyradulescu.parkingapp.Main3Activity"
-    tools:showIn="@layout/activity_main3">
+    tools:context="com.smart.andyradulescu.parkingapp.Section1Activity"
+    tools:showIn="@layout/activity_section1">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

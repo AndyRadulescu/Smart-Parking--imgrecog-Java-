@@ -25,18 +25,14 @@
         <activity
             android:name=".Main2Activity"
             android:label="Smart Parking"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".Main3Activity"
+            android:name=".Section1Activity"
             android:label="Smart Parking"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.example.anama.parkingapp.Section2"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_section2"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".Section2Activity" />
+        <activity android:name=".Section3Activity" />
+        <activity android:name=".Section4Activity" />
     </application>
 
 </manifest>
