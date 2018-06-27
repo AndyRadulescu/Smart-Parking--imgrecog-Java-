@@ -80,7 +80,7 @@ public class UpdateParking implements Runnable, SavedItems {
      */
     private void updateDatabase(OperationDAO dao, List<Boolean> parkingAvailabilities) {
         for (int i = 0; i < DBSIZE; i++) {
-            dao.updateParkingSlot(i + 1, parkingAvailabilities.get(i) ? 1 : 0);
+            dao.updateParkingSlot(i + 1, parkingAvailabilities.get(i) ? 1 : 0,0);
         }
     }
 }

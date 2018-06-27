@@ -25,25 +25,24 @@ public class UpdateParkingTest implements Runnable, SavedItems {
         while (isRunning) {
             System.out.println("running..");
             Random rnd = new Random();
-            int id1, id2, id3;
-            id1 = rnd.nextInt(5) + 1;
-            id2 = rnd.nextInt(5) + 1;
-            id3 = rnd.nextInt(5) + 1;
+            int[] ids = new int[DBSIZE];
 
             try {
                 OperationDAO dao = new OperationDAO(emf);
                 Thread.sleep(sleepTime * 1000);
                 this.sm.acquire();
-                dao.updateParkingSlot(id1, rnd.nextInt(2));
-                dao.updateParkingSlot(id2, rnd.nextInt(2));
-                dao.updateParkingSlot(id3, rnd.nextInt(2));
+                for (int id = 1; id <= DBSIZE; id++) {
+                    dao.updateParkingSlot(id, rnd.nextInt(2), rnd.nextInt(2));
+                }
                 emf.getCache().evictAll();
                 this.sm.release();
 
-                System.out.println(
-                        "Slept for " + sleepTime + "seconds, changed the ids : " + id1 + " , " + id2 + " , " + id3);
+                StringBuilder logString = new StringBuilder("Slept for " + sleepTime + "seconds, changed the ids : ");
+                for (int id = 1; id <= DBSIZE; id++) {
+                    logString.append(id).append(" , ");
+                }
+                System.out.println(logString);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

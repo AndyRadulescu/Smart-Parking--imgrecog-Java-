@@ -8,5 +8,5 @@ public interface SavedItems {
     String IP = "localhost";
     int TAKEALL = 1;
     int UPDATE = 2;
-    int DBSIZE = 6;
+    int DBSIZE = 12;
 }

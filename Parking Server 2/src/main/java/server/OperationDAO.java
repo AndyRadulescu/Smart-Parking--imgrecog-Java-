@@ -40,11 +40,12 @@ public class OperationDAO {// toate operatile pe baza de date
      * @param id
      * @param availability
      */
-    public synchronized void updateParkingSlot(int id, int availability) {
+    public synchronized void updateParkingSlot(int id, int availability, int selected) {
         EntityManager em = this.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         Parking parking = em.find(Parking.class, id);
         parking.setAvailability(availability);
+        parking.setSelected(selected);
         em.persist(parking);
         em.getTransaction().commit();
         em.close();

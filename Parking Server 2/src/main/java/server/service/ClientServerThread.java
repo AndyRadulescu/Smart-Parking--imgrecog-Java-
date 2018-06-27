@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,14 +86,14 @@ public class ClientServerThread implements Runnable, SavedItems {
     /**
      * Creates a pojo array to be sent.
      *
-     * @param array
+     * @param parkingPlaces
      * @return a list of the parking lot.
      */
-    private List<ParkingDTO> parse(List<Parking> array) {
+    private List<ParkingDTO> parse(List<Parking> parkingPlaces) {
         List<ParkingDTO> parsedArray = new ArrayList<>();
-        for (Parking anArray : array) {
+        for (Parking slot : parkingPlaces) {
             parsedArray.add(
-                    new ParkingDTO(anArray.getId(), anArray.getName(), anArray.getAvailability()));
+                    new ParkingDTO(slot.getId(), slot.getName(), slot.getAvailability(), slot.getSelected()));
         }
         return parsedArray;
     }

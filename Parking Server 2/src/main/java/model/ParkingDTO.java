@@ -14,11 +14,13 @@ public class ParkingDTO implements Serializable {
     private int id;
     private String name;
     private int availability;
+    private int selected;
 
-    public ParkingDTO(int id, String name, int availability) {
+    public ParkingDTO(int id, String name, int availability, int selected) {
         this.id = id;
         this.name = name;
         this.availability = availability;
+        this.selected = selected;
     }
 
     public ParkingDTO() {
@@ -49,9 +51,21 @@ public class ParkingDTO implements Serializable {
         this.availability = availability;
     }
 
-    @Override
-    public String toString() {
-        return "ParseParking [id=" + id + ", name=" + name + ", availability=" + availability + "]";
+    public int getSelected() {
+        return selected;
     }
 
+    public void setSelected(int selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public String toString() {
+        return "ParkingDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", availability=" + availability +
+                ", selected=" + selected +
+                '}';
+    }
 }
